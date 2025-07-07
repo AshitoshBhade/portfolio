@@ -54,7 +54,7 @@ export const Intro = () => {
 					transition={{ duration: 0.5, delay: 1.8 }} // Adjusted delay to run after anime.js
 				>
 					<ButtonElement label='View Projects' style={{ padding: "10px" }} buttonType={ButtonType.BLUE} onClick={() => handleNavLinkClick("projects")} />
-					<ButtonElement label='Contact Me' buttonType={ButtonType.WHITE} onClick={() => handleNavLinkClick("contact-me")} />
+					<ButtonElement label='Contact Me' style={{ padding: "10px" }} buttonType={ButtonType.WHITE} onClick={() => handleNavLinkClick("contact-me")} />
 					{/* Download CV Button */}
 					{/* <a href='/download/AshiitoshCV.pdf' download='AshitoshCV.pdf' className='inline-block'>
 						<ButtonElement

@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { FaEnvelope, FaGithub, FaLinkedin, FaPhone } from "react-icons/fa6";
-import { itemVariants } from "../variants";
+import { itemVariants, sectionVariants } from "../variants";
 
 export interface IContact {
 	name: string;
@@ -17,7 +17,13 @@ const contactDetails: IContact[] = [
 
 export default function ContactMe() {
 	return (
-		<section className='w-full max-w-4xl bg-gray-800 rounded-lg shadow-xl p-8 sm:p-10 lg:p-12 mb-16 text-start'>
+		<motion.section
+			id='contact-me'
+			className='w-full max-w-4xl bg-gray-800 rounded-lg shadow-xl p-8 sm:p-10 lg:p-12 mb-16 text-center'
+			initial='hidden'
+			whileInView='visible'
+			viewport={{ once: true, amount: 0.3 }}
+			variants={sectionVariants}>
 			<motion.h2 className='text-3xl sm:text-4xl font-bold text-white mb-6 border-b-2 border-blue-500 pb-2' variants={itemVariants}>
 				Contact Me
 			</motion.h2>
@@ -50,6 +56,6 @@ export default function ContactMe() {
 					</motion.a>
 				))}
 			</motion.div>
-		</section>
+		</motion.section>
 	);
 }
