@@ -22,7 +22,7 @@ export const sectionVariants: Variants = {
 
 export const cardAnimationVariants: Variants = {
 	offscreen: {
-		y: 100, // Starts 100px below
+		y: 50, // Starts 100px below
 		opacity: 0,
 		rotate: 0 // No rotation for a professional look
 	},

@@ -51,9 +51,9 @@ export const About = () => {
 				whileInView='visible'
 				viewport={{ once: false, amount: 0.3 }}
 				variants={itemVariants}
-				className='flex flex-row flex-wrap justify-around items-end gap-4 w-full mt-4'>
+				className='grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4 place-items-center'>
 				<motion.div className='p-1 flex items-center flex-col w-[60px]' variants={itemVariants}>
-					<p className='text-white-300 font-bold text-center mt-1'>English Hindi Marathi</p>
+					<p className='text-white-300 font-bold text-center mt-1'>English/Hindi/Marathi</p>
 					<p className='text-gray-400 font-bold text-center mt-1'>Languages</p>
 				</motion.div>
 				<motion.div className='p-1 flex justify-center items-center flex-col w-[60px]' variants={itemVariants}>
@@ -73,18 +73,22 @@ export const About = () => {
 				whileInView='visible'
 				viewport={{ once: false, amount: 0.3 }} // Animate when 30% of section is in view
 				variants={itemVariants}
-				className='flex flex-row  flex-wrap justify-around items-end gap-4 w-full mt-4'>
+				className='grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4 place-items-center'>
 				<motion.div className='p-1 flex justify-center items-center flex-col w-[60px]' variants={itemVariants}>
 					<CountComponent value={5} symbol='+' />
 					<p className='text-gray-400 font-bold text-center mt-1'>Years of Experience</p>
 				</motion.div>
 				<motion.div className='p-1 flex justify-center items-center flex-col w-[60px]' variants={itemVariants}>
 					<CountComponent value={10} symbol='+' />
-					<p className='text-gray-400 font-bold text-center mt-1'>Projects</p>
+					<p className='text-gray-400 font-bold text-center mt-1'>Total Projects</p>
 				</motion.div>
 				<motion.div className='p-1 flex justify-center items-center flex-col w-[60px]' variants={itemVariants}>
 					<CountComponent value={95} symbol='%' />
 					<p className='text-gray-400 font-bold text-center mt-1'>Client Satisfaction</p>
+				</motion.div>
+				<motion.div className='p-1 flex justify-center items-center flex-col w-[60px]' variants={itemVariants}>
+					<CountComponent value={25} symbol='K+' />
+					<p className='text-gray-400 font-bold text-center mt-1'> Contract Transactions</p>
 				</motion.div>
 			</motion.div>
 		</motion.section>

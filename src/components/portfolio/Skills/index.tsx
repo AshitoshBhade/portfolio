@@ -240,8 +240,8 @@ export const Skills = () => {
 						<strong>Chains:</strong> <TechStackDisplay techStackString='Polygon, Ethereum, BSC, Base' />
 					</motion.li>
 					<motion.li variants={itemVariants}>
-						<strong>Expertises:</strong> Smart contracts, NFTs, Marketplace, ICO, Vaults, Airdrops, Yield farming, External Farming, Upgradable Smart Contracts,
-						DAO, Smart Wallets, Token Bridges, Automated Payments.
+						<strong>Expertises:</strong> Smart contracts, NFTs, Marketplace, ICO, Vaults, Airdrops, Yield farming, DeFi, External Farming, Upgradable Smart
+						Contracts, DAO, Smart Wallets, Token Bridges, Automated Payments.
 					</motion.li>
 				</motion.ul>
 			</motion.div>
