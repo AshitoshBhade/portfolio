@@ -42,7 +42,7 @@ function AppComponent() {
 			<ContactMe />
 
 			{/* Footer */}
-			<footer className='w-full max-w-4xl text-center py-8 text-gray-500 text-sm'>
+			<footer className='w-full max-w-6xl text-center py-8 text-gray-500 text-sm'>
 				<p className='text-center text-sm text-gray-400'>
 					Made with <span className='text-red-500'>❤️</span> by Ashitosh Bhade.
 					<br />

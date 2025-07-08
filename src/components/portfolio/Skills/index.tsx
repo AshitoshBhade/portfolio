@@ -211,7 +211,7 @@ export const Skills = () => {
 	return (
 		<motion.section
 			id='skills'
-			className='w-full max-w-4xl rounded-lg shadow-xl p-8 sm:p-10 lg:p-12 mb-16'
+			className='w-full max-w-6xl bg-gray-800 rounded-lg shadow-xl p-8 sm:p-10 lg:p-12 mb-16'
 			initial='hidden'
 			whileInView='visible'
 			viewport={{ once: true, amount: 0.3 }}

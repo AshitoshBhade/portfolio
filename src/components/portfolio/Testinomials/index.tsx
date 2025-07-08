@@ -5,19 +5,19 @@ const testimonials = [
 	{
 		message:
 			"Ashitosh is an exceptional blockchain developer. His ability to quickly understand complex requirements and deliver robust solutions is truly impressive. He was instrumental in integrating our Crossmint checkout, AI Assistant, Marketplaces, developing POCs for our products, exceeding expectations on turnaround time.",
-		name: "Anonymous[Ownplay]"
+		name: "Anonymous"
 	},
 	{
 		message:
 			"Working with Ashitosh was a seamless experience. His deep expertise in ERC-4337 and smart wallets allowed us to implement sponsored transactions, significantly improving user onboarding for our dApp.",
-		name: "Anonymous[Ownplay]"
+		name: "Anonymous"
 	}
 ];
 export const Testinomial = () => {
 	return (
 		<motion.section
 			id='testimonials'
-			className='w-full max-w-4xl bg-gray-800 rounded-lg shadow-xl p-8 sm:p-10 lg:p-12 mb-16'
+			className='w-full max-w-6xl bg-gray-800 rounded-lg shadow-xl p-8 sm:p-10 lg:p-12 mb-16'
 			initial='hidden'
 			whileInView='visible'
 			viewport={{ once: true, amount: 0.3 }}

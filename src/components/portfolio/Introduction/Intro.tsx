@@ -13,7 +13,7 @@ export const Intro = () => {
 	return (
 		<motion.section
 			id='hero'
-			className='w-full  max-w-4xl text-center py-8 flex flex-col gap-4 px-4 sm:px-6 lg:px-8 mb-8 lg:flex lg:flex-row lg:items-center lg:justify-center' //
+			className='w-full  max-w-6xl text-center py-8 flex flex-col gap-4 px-4 sm:px-6 lg:px-8 mb-8 lg:flex lg:flex-row lg:items-center lg:justify-center' //
 			initial='hidden'
 			animate='visible'
 			variants={sectionVariants}>

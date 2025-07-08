@@ -9,7 +9,7 @@ export const Introduction = () => {
 	return (
 		<motion.section
 			id='hero'
-			className='w-full max-w-4xl text-center py-16 px-4 sm:px-6 lg:px-8 mb-16'
+			className='w-full max-w-6xl text-center py-16 px-4 sm:px-6 lg:px-8 mb-16'
 			// Framer Motion for section (opacity/y) is still here, but children are anime.js
 			initial='hidden'
 			animate='visible'
