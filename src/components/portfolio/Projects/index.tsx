@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { ExternalLink, FileText, Github } from "lucide-react";
-import { TechStackDisplay } from "../Skills";
 import { cardAnimationVariants, containerVariants, itemVariants } from "../variants";
+import { getTechIcon } from "../Skills";
 
 export interface IProject {
 	id: string;
@@ -109,6 +109,27 @@ export const projectsData: IProject[] = [
 interface ProjectCardProps {
 	project: (typeof projectsData)[0]; // Type based on the project data structure
 }
+
+export const TechStackDisplay = ({ techStackString }: { techStackString: string }) => {
+	const techItems = techStackString.split(",").map(item => item.trim());
+
+	return (
+		<motion.div className='flex flex-wrap gap-2 mt-2' variants={containerVariants} initial='hidden' animate='visible'>
+			{techItems.map((tech, index) => {
+				const icon = getTechIcon(tech);
+				return (
+					<motion.span
+						key={index}
+						className='flex items-center bg-gray-600 text-gray-200 px-3 py-1 rounded-full text-sm font-medium shadow-sm transition-all duration-200 hover:bg-blue-600 hover:text-white'
+						variants={itemVariants}>
+						{icon && <span className='mr-1'>{icon}</span>}
+						{tech}
+					</motion.span>
+				);
+			})}
+		</motion.div>
+	);
+};
 
 const ProjectCard = ({ project }: ProjectCardProps) => {
 	return (
