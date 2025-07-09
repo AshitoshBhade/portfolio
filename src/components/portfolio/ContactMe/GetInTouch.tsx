@@ -1,0 +1,167 @@
+// components/GetInTouch.jsx or components/GetInTouch.tsx (if using TypeScript)
+
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { Mail, Phone, User, MessageSquare } from "lucide-react"; // Icons for input fields
+
+// Assuming these variants are defined globally or locally.
+const containerVariants = {
+	hidden: { opacity: 0, y: 20 },
+	visible: { opacity: 1, y: 0, transition: { staggerChildren: 0.1, duration: 0.5 } }
+};
+const itemVariants = {
+	hidden: { opacity: 0, y: 20 },
+	visible: { opacity: 1, y: 0 }
+};
+
+interface IContactForm {
+	name: string;
+	email: string;
+	phone?: string;
+	message: string;
+}
+
+const GetInTouch = () => {
+	const [formData, setFormData] = useState<IContactForm>({
+		name: "",
+		email: "",
+		phone: "",
+		message: ""
+	});
+	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [submitStatus, setSubmitStatus] = useState(""); // 'success', 'error', ''
+
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+		const { name, value } = e.target;
+		setFormData(prev => ({ ...prev, [name]: value }));
+	};
+
+	const handleSubmit = async (e: React.FormEvent) => {
+		e.preventDefault();
+		setIsSubmitting(true);
+		setSubmitStatus("");
+
+		console.log("Submitting form data:", formData);
+
+		const res = await fetch("/api/send-email", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify(formData)
+		});
+
+		console.log("Response from API:", res);
+		try {
+			if (res.ok) {
+				setSubmitStatus("success");
+				setFormData({ name: "", email: "", phone: "", message: "" }); // Clear form
+				console.log("Form submitted successfully (mock).");
+			} else {
+				setSubmitStatus("error");
+				console.error("Form submission failed (mock).");
+			}
+		} catch (error) {
+			setSubmitStatus("error");
+			console.error("Error during form submission (mock):", error);
+		} finally {
+			setIsSubmitting(false);
+			// Clear status message after some time
+			setTimeout(() => setSubmitStatus(""), 5000);
+		}
+	};
+
+	return (
+		<motion.section
+			id='contact'
+			className='w-full p-4 sm:p-10 lg:p-12'
+			initial='hidden'
+			whileInView='visible'
+			viewport={{ once: true, amount: 0.1 }}
+			variants={containerVariants}>
+			<motion.h2 className='text-3xl sm:text-4xl font-bold text-white mb-6 border-b-2 border-blue-500 pb-2 text-start' variants={itemVariants}>
+				Get In Touch
+			</motion.h2>
+
+			<motion.p className='text-gray-300 text-lg text-start mb-8' variants={itemVariants}>
+				Have a project in mind or just want to say hello? Feel free to reach out!
+			</motion.p>
+
+			<motion.form onSubmit={handleSubmit} className='grid grid-cols-1 md:grid-cols-2 gap-6' variants={containerVariants}>
+				<motion.div className='relative' variants={itemVariants}>
+					<User className='absolute left-3 top-1/2 -translate-y-1/2 text-gray-400' size={20} />
+					<input
+						type='text'
+						name='name'
+						placeholder='Your Name'
+						value={formData.name}
+						onChange={handleChange}
+						required
+						className='w-full pl-10 pr-4 py-3 bg-gray-700 text-white rounded-md border border-gray-600 focus:border-blue-500 focus:ring-blue-500 focus:outline-none transition-all duration-200 placeholder-gray-400'
+						disabled={isSubmitting}
+					/>
+				</motion.div>
+
+				<motion.div className='relative' variants={itemVariants}>
+					<Mail className='absolute left-3 top-1/2 -translate-y-1/2 text-gray-400' size={20} />
+					<input
+						type='email'
+						name='email'
+						placeholder='Your Email'
+						value={formData.email}
+						onChange={handleChange}
+						required
+						className='w-full pl-10 pr-4 py-3 bg-gray-700 text-white rounded-md border border-gray-600 focus:border-blue-500 focus:ring-blue-500 focus:outline-none transition-all duration-200 placeholder-gray-400'
+						disabled={isSubmitting}
+					/>
+				</motion.div>
+
+				<motion.div className='relative md:col-span-2' variants={itemVariants}>
+					<Phone className='absolute left-3 top-1/2 -translate-y-1/2 text-gray-400' size={20} />
+					<input
+						type='tel'
+						name='phone'
+						placeholder='Your Phone (Optional)'
+						value={formData.phone}
+						onChange={handleChange}
+						className='w-full pl-10 pr-4 py-3 bg-gray-700 text-white rounded-md border border-gray-600 focus:border-blue-500 focus:ring-blue-500 focus:outline-none transition-all duration-200 placeholder-gray-400'
+						disabled={isSubmitting}
+					/>
+				</motion.div>
+
+				<motion.div className='relative md:col-span-2' variants={itemVariants}>
+					<MessageSquare className='absolute left-3 top-4 text-gray-400' size={20} />
+					<textarea
+						name='message'
+						placeholder='Your Message'
+						value={formData.message}
+						onChange={handleChange}
+						rows={5}
+						required
+						className='w-full pl-10 pr-4 py-3 bg-gray-700 text-white rounded-md border border-gray-600 focus:border-blue-500 focus:ring-blue-500 focus:outline-none transition-all duration-200 placeholder-gray-400 resize-y'
+						disabled={isSubmitting}></textarea>
+				</motion.div>
+
+				<motion.div className='md:col-span-2 flex flex-col items-center' variants={itemVariants}>
+					<button
+						type='submit'
+						className='bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-md transition-all duration-300 shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed'
+						disabled={isSubmitting}>
+						{isSubmitting ? "Sending..." : "Send Message"}
+					</button>
+
+					{submitStatus === "success" && (
+						<motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className='mt-4 text-green-400 text-sm'>
+							Message sent successfully! I&apos;ll get back to you soon.
+						</motion.p>
+					)}
+					{submitStatus === "error" && (
+						<motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className='mt-4 text-red-400 text-sm'>
+							Failed to send message. Please try again later.
+						</motion.p>
+					)}
+				</motion.div>
+			</motion.form>
+		</motion.section>
+	);
+};
+
+export default GetInTouch;

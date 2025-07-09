@@ -4,6 +4,7 @@ import HeaderComponent from "../header";
 import { About } from "./AboutMe/AboutMe";
 import { Achievements } from "./Achievements";
 import ContactMe from "./ContactMe";
+import { Contacts } from "./ContactMe/Contacts";
 import { Intro } from "./Introduction/Intro";
 import { Projects } from "./Projects";
 import { Skills } from "./Skills";
@@ -42,7 +43,8 @@ function AppComponent() {
 			<ContactMe />
 
 			{/* Footer */}
-			<footer className='w-full max-w-6xl text-center py-8 text-gray-500 text-sm'>
+			<footer className='w-full max-w-6xl flex flex-col flex-wrap text-center py-8 text-gray-500 text-sm gap-4'>
+				<Contacts />
 				<p className='text-center text-sm text-gray-400'>
 					Made with <span className='text-red-500'>❤️</span> by Ashitosh Bhade.
 					<br />
