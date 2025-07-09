@@ -134,74 +134,76 @@ export const TechStackDisplay = ({ techStackString }: { techStackString: string 
 const ProjectCard = ({ project }: ProjectCardProps) => {
 	return (
 		<motion.div
-			className='w-full bg-gradient-to-r from-[#1e293b] via-[#2b3243] to-[#1e293b] rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:translate-y-[-10px] hover:shadow-2xl'
 			initial='offscreen'
 			whileInView='onscreen'
 			viewport={{ amount: 0.3, once: true }} // Animate when 30% in view, only once
-			variants={cardAnimationVariants}>
-			<motion.img
-				src={project.imageUrl}
-				alt={project.title}
-				className='w-full h-48 object-cover' // Fixed height for consistency
-				onError={e => {
-					e.currentTarget.src = `https://placehold.co/600x300/334155/E2E8F0?text=${encodeURIComponent(project.title)}`;
-				}}
-			/>
-			<div className='p-6'>
-				<h3 className='text-2xl font-bold text-white mb-2'>{project.title}</h3>
-				{project.liveLink && (
-					<p className='text-blue-400 mb-2 flex items-center'>
-						<ExternalLink className='h-4 w-4 mr-1' />
-						<a href={project.liveLink} target='_blank' rel='noopener noreferrer' className='hover:underline'>
-							Live Link
-						</a>
-					</p>
-				)}
-				{project.githubLink && (
-					<p className='text-blue-400 mb-2 flex items-center'>
-						<Github className='h-4 w-4 mr-1' />
-						<a href={project.githubLink} target='_blank' rel='noopener noreferrer' className='hover:underline'>
-							GitHub Repo
-						</a>
-					</p>
-				)}
-				{project.caseStudyLink && (
-					<p className='text-blue-400 mb-2 flex items-center'>
-						<FileText className='h-4 w-4 mr-1' />
-						<a href={project.caseStudyLink} target='_blank' rel='noopener noreferrer' className='hover:underline'>
-							Case Study
-						</a>
-					</p>
-				)}
+			variants={cardAnimationVariants}
+			className='relative p-[2px] rounded-xl bg-[length:300%_300%] bg-gradient-to-r from-pink-500 via-blue-500 to-purple-500 animate-gradient-border transition-all duration-300 hover:translate-y-[-10px] hover:shadow-2xl'>
+			<motion.div className='w-full h-full bg-gradient-to-r from-[#1e293b] via-[#2b3243] to-[#1e293b] rounded-lg shadow-md overflow-hidden'>
+				<motion.img
+					src={project.imageUrl}
+					alt={project.title}
+					className='w-full h-48 object-cover' // Fixed height for consistency
+					onError={e => {
+						e.currentTarget.src = `https://placehold.co/600x300/334155/E2E8F0?text=${encodeURIComponent(project.title)}`;
+					}}
+				/>
+				<div className='p-6'>
+					<h3 className='text-2xl font-bold text-white mb-2'>{project.title}</h3>
+					{project.liveLink && (
+						<p className='text-blue-400 mb-2 flex items-center'>
+							<ExternalLink className='h-4 w-4 mr-1' />
+							<a href={project.liveLink} target='_blank' rel='noopener noreferrer' className='hover:underline'>
+								Live Link
+							</a>
+						</p>
+					)}
+					{project.githubLink && (
+						<p className='text-blue-400 mb-2 flex items-center'>
+							<Github className='h-4 w-4 mr-1' />
+							<a href={project.githubLink} target='_blank' rel='noopener noreferrer' className='hover:underline'>
+								GitHub Repo
+							</a>
+						</p>
+					)}
+					{project.caseStudyLink && (
+						<p className='text-blue-400 mb-2 flex items-center'>
+							<FileText className='h-4 w-4 mr-1' />
+							<a href={project.caseStudyLink} target='_blank' rel='noopener noreferrer' className='hover:underline'>
+								Case Study
+							</a>
+						</p>
+					)}
 
-				<div className='mt-4 text-gray-300 text-base space-y-3'>
-					{/* {project.problemSolved && (
+					<div className='mt-4 text-gray-300 text-base space-y-3'>
+						{/* {project.problemSolved && (
 						<div>
 							<strong>Problem Solved:</strong> {project.problemSolved}
 						</div>
 					)} */}
-					{project.myRole && (
-						<div>
-							<strong>My Role:</strong> {project.myRole}
-						</div>
-					)}
-					{project.keyFeatures && (
-						<div>
-							<strong>Key Features:</strong> {project.keyFeatures}
-						</div>
-					)}
-					{project.techStack && (
-						<div>
-							<strong>Tech Stack:</strong> <TechStackDisplay techStackString={project.techStack} />
-						</div>
-					)}
-					{project.thirdPartyServices && (
-						<div>
-							<strong>Third Party Services Used:</strong> <TechStackDisplay techStackString={project.thirdPartyServices} />
-						</div>
-					)}
+						{project.myRole && (
+							<div>
+								<strong>My Role:</strong> {project.myRole}
+							</div>
+						)}
+						{project.keyFeatures && (
+							<div>
+								<strong>Key Features:</strong> {project.keyFeatures}
+							</div>
+						)}
+						{project.techStack && (
+							<div>
+								<strong>Tech Stack:</strong> <TechStackDisplay techStackString={project.techStack} />
+							</div>
+						)}
+						{project.thirdPartyServices && (
+							<div>
+								<strong>Third Party Services Used:</strong> <TechStackDisplay techStackString={project.thirdPartyServices} />
+							</div>
+						)}
+					</div>
 				</div>
-			</div>
+			</motion.div>
 		</motion.div>
 	);
 };
