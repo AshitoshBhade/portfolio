@@ -3,14 +3,60 @@
 import type { Variants } from "motion/react";
 import * as motion from "motion/react-client";
 import { useEffect, useRef, useState } from "react";
-import { HeaderItem, HeaderItemProps } from "./HeaderItem";
 import { HeaderItemConfig } from ".";
+import { HeaderItem, HeaderItemProps } from "./HeaderItem";
 
 interface PathProps {
 	d?: string;
 	variants: Variants;
 	transition?: { duration: number };
 }
+
+const itemVariants = {
+	open: {
+		y: 0,
+		opacity: 1,
+		transition: {
+			y: { stiffness: 1000, velocity: -100 }
+		}
+	},
+	closed: {
+		y: 50,
+		opacity: 0,
+		transition: {
+			y: { stiffness: 1000 }
+		}
+	}
+};
+
+const navVariants = {
+	open: {
+		transition: { staggerChildren: 0.07, delayChildren: 0.2 }
+	},
+	closed: {
+		transition: { staggerChildren: 0.05, staggerDirection: -1 }
+	}
+};
+
+const sidebarVariants: Variants = {
+	open: (height = 1000) => ({
+		clipPath: `circle(${height * 2 + 200}px at 260px 40px)`,
+		transition: {
+			type: "spring",
+			stiffness: 20,
+			restDelta: 2
+		}
+	}),
+	closed: {
+		clipPath: "circle(30px at 260px 40px)",
+		transition: {
+			delay: 0.2,
+			type: "spring",
+			stiffness: 400,
+			damping: 40
+		}
+	}
+};
 
 export default function MobileMenu() {
 	const [isOpen, setIsOpen] = useState(false);
@@ -21,7 +67,7 @@ export default function MobileMenu() {
 
 	const MenuToggle = ({ toggle }: { toggle: () => void }) => (
 		<button style={toggleContainer} onClick={toggle}>
-			<svg width='42' height='42' viewBox='0 0 23 23'>
+			<svg width='32' height='32' viewBox='0 0 23 23'>
 				<Path
 					variants={{
 						closed: { d: "M 2 2.5 L 20 2.5" },
@@ -45,6 +91,7 @@ export default function MobileMenu() {
 			</svg>
 		</button>
 	);
+
 	const background: React.CSSProperties = {
 		backgroundColor: `${isOpen ? "rgba(17, 24, 39, 0.95)" : "transparent"}`,
 		position: "absolute",
@@ -66,15 +113,6 @@ export default function MobileMenu() {
 	);
 }
 
-const navVariants = {
-	open: {
-		transition: { staggerChildren: 0.07, delayChildren: 0.2 }
-	},
-	closed: {
-		transition: { staggerChildren: 0.05, staggerDirection: -1 }
-	}
-};
-
 const Navigation = () => (
 	<motion.ul style={list} variants={navVariants}>
 		{HeaderItemConfig.map(item => (
@@ -83,49 +121,12 @@ const Navigation = () => (
 	</motion.ul>
 );
 
-const itemVariants = {
-	open: {
-		y: 0,
-		opacity: 1,
-		transition: {
-			y: { stiffness: 1000, velocity: -100 }
-		}
-	},
-	closed: {
-		y: 50,
-		opacity: 0,
-		transition: {
-			y: { stiffness: 1000 }
-		}
-	}
-};
-
 const MenuItem = ({ icon, label, href, onClick }: HeaderItemProps) => {
 	return (
 		<motion.li style={listItem} variants={itemVariants} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} onClick={onClick}>
 			<HeaderItem href={href} icon={icon} label={label} onClick={onClick} />
 		</motion.li>
 	);
-};
-
-const sidebarVariants: Variants = {
-	open: (height = 1000) => ({
-		clipPath: `circle(${height * 2 + 200}px at 260px 40px)`,
-		transition: {
-			type: "spring",
-			stiffness: 20,
-			restDelta: 2
-		}
-	}),
-	closed: {
-		clipPath: "circle(30px at 260px 40px)",
-		transition: {
-			delay: 0.2,
-			type: "spring",
-			stiffness: 400,
-			damping: 40
-		}
-	}
 };
 
 /**
