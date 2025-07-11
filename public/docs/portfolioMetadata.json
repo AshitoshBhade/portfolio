@@ -1,0 +1,227 @@
+{
+    "name": "Ashitosh Bhade - Blockchain Developer",
+    "description": "A Solutions Engineer & Blockchain Developer with expertise in Solidity, Web3, React, and full-stack DApp architecture. This NFT represents Ashitosh Bhade's professional resume.",
+    "image": "https://teal-bizarre-raven-350.mypinata.cloud/ipfs/bafybeid4hk25cc4hy2hbknycdvy4lif5mg4m2cwihmebf4wzttirwtp7xy",
+    "external_url": "https://linkedin.com/in/ashitosh-bhade-41ba37105",
+    "attributes": [
+        {
+            "trait_type": "Role",
+            "value": "Blockchain Developer"
+        },
+        {
+            "trait_type": "Experience",
+            "display_type": "number",
+            "value": 5
+        },
+        {
+            "trait_type": "Smart Contracts Deployed",
+            "display_type": "number",
+            "value": 25
+        },
+        {
+            "trait_type": "Projects",
+            "display_type": "number",
+            "value": 10
+        },
+        {
+            "trait_type": "Tech Stack",
+            "value": "Solidity"
+        },
+        {
+            "trait_type": "Tech Stack",
+            "value": "React"
+        },
+        {
+            "trait_type": "Tech Stack",
+            "value": "Node.js"
+        },
+        {
+            "trait_type": "Tech Stack",
+            "value": "Nextjs"
+        },
+        {
+            "trait_type": "Tech Stack",
+            "value": "Javscript"
+        },
+        {
+            "trait_type": "Tech Stack",
+            "value": "Typescript"
+        },
+        {
+            "trait_type": "Tech Stack",
+            "value": "Blockchain"
+        },
+        {
+            "trait_type": "Tech Stack",
+            "value": "EVM Chains"
+        },
+        {
+            "trait_type": "Expertise",
+            "value": "Smart contracts"
+        },
+        {
+            "trait_type": "Expertise",
+            "value": "NFTs"
+        },
+        {
+            "trait_type": "Expertise",
+            "value": "Marketplace"
+        },
+        {
+            "trait_type": "Expertise",
+            "value": "ICO"
+        },
+        {
+            "trait_type": "Expertise",
+            "value": "Vaults"
+        },
+        {
+            "trait_type": "Expertise",
+            "value": "Giveaways"
+        },
+        {
+            "trait_type": "Expertise",
+            "value": "Yield farming"
+        },
+        {
+            "trait_type": "Expertise",
+            "value": "External Farming"
+        },
+        {
+            "trait_type": "Expertise",
+            "value": "Upgradable Smart Contracts"
+        },
+        {
+            "trait_type": "Expertise",
+            "value": "DAO"
+        },
+        {
+            "trait_type": "Expertise",
+            "value": "Smart Wallets"
+        },
+        {
+            "trait_type": "Expertise",
+            "value": "Token Bridges"
+        },
+        {
+            "trait_type": "Expertise",
+            "value": "Automated Payments"
+        },
+        {
+            "trait_type": "Expertise",
+            "value": "DeFi"
+        },
+        {
+            "trait_type": "Tools",
+            "value": "Truffle"
+        },
+        {
+            "trait_type": "Tools",
+            "value": "Hardhat"
+        },
+        {
+            "trait_type": "Tools",
+            "value": "Foundry"
+        },
+        {
+            "trait_type": "Tools",
+            "value": "Web3.js"
+        },
+        {
+            "trait_type": "Tools",
+            "value": "Ether.js"
+        },
+        {
+            "trait_type": "Tools",
+            "value": "Chai.js"
+        },
+        {
+            "trait_type": "Tools",
+            "value": "IPFS"
+        },
+        {
+            "trait_type": "Tools",
+            "value": "Subgraphs"
+        },
+        {
+            "trait_type": "Tools",
+            "value": "Postman"
+        },
+        {
+            "trait_type": "Tools",
+            "value": "LucidChart"
+        },
+        {
+            "trait_type": "Tools",
+            "value": "Viem"
+        },
+        {
+            "trait_type": "Third-Party Integrations",
+            "value": "Thirdweb"
+        },
+        {
+            "trait_type": "Third-Party Integrations",
+            "value": "Reservoir"
+        },
+        {
+            "trait_type": "Third-Party Integrations",
+            "value": "Crossmint"
+        },
+        {
+            "trait_type": "Third-Party Integrations",
+            "value": "Magic.link"
+        },
+        {
+            "trait_type": "Third-Party Integrations",
+            "value": "OpenAI"
+        },
+        {
+            "trait_type": "Third-Party Integrations",
+            "value": "Heygen"
+        },
+        {
+            "trait_type": "Third-Party Integrations",
+            "value": "Chainlink"
+        },
+        {
+            "trait_type": "Third-Party Integrations",
+            "value": "Uniswap"
+        },
+        {
+            "trait_type": "Third-Party Integrations",
+            "value": "Sushiswap"
+        },
+        {
+            "trait_type": "Third-Party Integrations",
+            "value": "PancakeSwap"
+        },
+        {
+            "trait_type": "Third-Party Integrations",
+            "value": "Coinbase"
+        },
+        {
+            "trait_type": "Third-Party Integrations",
+            "value": "OpenZeppelin"
+        },
+        {
+            "trait_type": "Third-Party Integrations",
+            "value": "The Graph"
+        },
+        {
+            "trait_type": "Blockchain Domains",
+            "value": "DeFi"
+        },
+        {
+            "trait_type": "Blockchain Domains",
+            "value": "NFTs"
+        },
+        {
+            "trait_type": "Blockchain Domains",
+            "value": "DAO"
+        },
+        {
+            "trait_type": "Blockchain Domains",
+            "value": "Tokenization"
+        }
+    ]
+}
