@@ -42,7 +42,7 @@ export const HeaderItemConfig: HeaderItemProps[] = [
 ];
 export const HeaderComponent = () => {
 	return (
-		<header className='w-full py-6 px-4 h-[80px] sm:px-6 lg:px-8 flex justify-between items-center sticky top-0 z-50 bg-gradient-to-r from-gray-900 to-gray-800 shadow-lg relative'>
+		<header className='w-full py-6 px-4 h-[70px] sm:px-6 lg:px-8 flex justify-between items-center sticky top-0 z-50 bg-gradient-to-r from-gray-900 to-gray-800 shadow-lg relative'>
 			<div className='text-2xl font-bold text-white hidden md:block absolute left-8'>Ashitosh Bhade</div>
 
 			{/* Desktop Navigation */}

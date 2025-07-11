@@ -101,7 +101,7 @@ export default function MobileMenu() {
 		width: 300
 	};
 	return (
-		<div className='md:hidden absolute right-2 top-1 z-50'>
+		<div className='md:hidden absolute right-1 top-1 z-50'>
 			<div style={container}>
 				<motion.nav initial={false} animate={isOpen ? "open" : "closed"} custom={height} ref={containerRef} style={nav}>
 					<motion.div style={background} variants={sidebarVariants} />
@@ -156,8 +156,8 @@ const toggleContainer: React.CSSProperties = {
 	MozUserSelect: "none",
 	cursor: "pointer",
 	position: "absolute",
-	top: 18,
-	right: 15,
+	top: 10,
+	right: 10,
 	width: 50,
 	height: 50,
 	borderRadius: "50%",
@@ -169,7 +169,7 @@ const list: React.CSSProperties = {
 	padding: 25,
 	margin: 0,
 	position: "absolute",
-	top: 80,
+	top: 60,
 	width: 230
 };
 

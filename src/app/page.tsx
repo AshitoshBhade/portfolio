@@ -1,5 +1,5 @@
-import AppComponent from "@/components/portfolio/index";
+import ScrollLinked from "@/components/scrollLinked";
 
 export default function Home() {
-	return <AppComponent />;
+	return <ScrollLinked />;
 }

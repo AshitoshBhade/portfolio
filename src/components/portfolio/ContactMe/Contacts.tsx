@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { FaEnvelope, FaGithub, FaLinkedin, FaPhone } from "react-icons/fa6";
+import { SiOpensea } from "react-icons/si";
 
 export interface IContact {
 	name: string;
@@ -11,7 +12,8 @@ const contactDetails: IContact[] = [
 	{ name: "Email", icon: <FaEnvelope size={24} />, link: "mailto:ashitosh.bhade@gmail.com" },
 	{ name: "LinkedIn", icon: <FaLinkedin size={24} />, link: "https://linkedin.com/in/ashitosh-bhade-41ba37105" },
 	{ name: "Github", icon: <FaGithub size={24} />, link: "https://github.com/ashitosh03" },
-	{ name: "Phone", icon: <FaPhone size={24} />, link: "https://wa.me/+919284309929" }
+	{ name: "Phone", icon: <FaPhone size={24} />, link: "https://wa.me/+919284309929" },
+	{ name: "Opensea", icon: <SiOpensea size={24} />, link: "https://testnets.opensea.io/assets/base_sepolia/0x8214ba3739813d603f0f06be95e2ebcc947c1098/1" }
 ];
 
 export const Contacts = () => {

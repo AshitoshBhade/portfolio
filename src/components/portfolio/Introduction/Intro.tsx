@@ -2,6 +2,7 @@ import { ButtonElement } from "@/components/buttons";
 import { ButtonType } from "@/components/buttons/types";
 import { handleNavLinkClick } from "@/utils/handleNavClick";
 import { motion, Variants } from "framer-motion";
+import { Download } from "lucide-react";
 import { ProfileImageCard } from "./ProfileImageCard";
 
 export const sectionVariants: Variants = {
@@ -39,7 +40,7 @@ export const Intro = () => {
 				</h1>
 				<motion.p
 					id='portfolio-role' // Added ID for anime.js
-					className='text-l sm:text-xl text-gray-300 mb-4'
+					className='text-l sm:text-xl text-gray-300 mb-1'
 					// Framer Motion animation props removed as anime.js handles it
 					initial={{ opacity: 0, y: 20 }} // Kept Framer Motion for buttons
 					animate={{ opacity: 1, y: 0 }}
@@ -47,25 +48,33 @@ export const Intro = () => {
 				>
 					A professional Blockchain Developer.
 				</motion.p>
+				<motion.a
+					href='https://testnets.opensea.io/assets/base_sepolia/0x8214ba3739813d603f0f06be95e2ebcc947c1098/1'
+					target='_blank'
+					rel='noopener noreferrer'
+					className='text-blue-400 block hover:text-blue-500 transition-colors mb-3'>
+					Check me out on Opensea
+				</motion.a>
 				<motion.div
-					className='flex flex-row justify-center space-x-4 flex-wrap gap-4' // Added flex-wrap and gap for responsiveness
+					className='flex flex-row flex-wrap justify-center space-x-4 flex-wrap gap-4' // Added flex-wrap and gap for responsiveness
 					initial={{ opacity: 0, y: 20 }} // Kept Framer Motion for buttons
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.5, delay: 1.8 }} // Adjusted delay to run after anime.js
 				>
-					<ButtonElement label='View Projects' style={{ padding: "10px" }} buttonType={ButtonType.BLUE} onClick={() => handleNavLinkClick("projects")} />
-					<ButtonElement label='Contact Me' style={{ padding: "10px" }} buttonType={ButtonType.WHITE} onClick={() => handleNavLinkClick("contact-me")} />
+					<ButtonElement label='Hire Me!' style={{ padding: "15px" }} buttonType={ButtonType.RED} onClick={() => handleNavLinkClick("contact-me")} />
+
 					{/* Download CV Button */}
-					{/* <a href='/download/AshiitoshCV.pdf' download='AshitoshCV.pdf' className='inline-block'>
+					<motion.a href='/AshitoshCV.pdf' download='AshitoshCV.pdf' className='inline-block'>
 						<ButtonElement
+							style={{ padding: "10px" }}
 							label={
 								<span className='flex items-center'>
-									<Download className='mr-2 h-5 w-3' /> Download CV
+									<Download className='mr-2 h-10 w-5' /> Download CV
 								</span>
 							}
 							buttonType={ButtonType.GRAY}
 						/>
-					</a> */}
+					</motion.a>
 				</motion.div>
 			</motion.div>
 
