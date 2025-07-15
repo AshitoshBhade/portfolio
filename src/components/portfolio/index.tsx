@@ -1,5 +1,6 @@
 "use client";
 
+import PersonalAssistant from "../assitant";
 import HeaderComponent from "../header";
 import { About } from "./AboutMe/AboutMe";
 import { Achievements } from "./Achievements";
@@ -42,6 +43,7 @@ function AppComponent() {
 			{/* Contact Me Section */}
 			<ContactMe />
 
+			<PersonalAssistant />
 			{/* Footer */}
 			<footer className='w-full max-w-6xl flex flex-col flex-wrap text-center py-8 text-gray-500 text-sm gap-4'>
 				<Contacts />
