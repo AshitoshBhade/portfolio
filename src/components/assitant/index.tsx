@@ -19,8 +19,7 @@ export default function PersonalAssistant() {
 	]);
 	const [loading, setLoading] = useState(false);
 	const [inputDisabled, setInputDisabled] = useState(false);
-	// const playerContextResonseId = useRef<string | null>(null);
-	// const contextFetched = useRef<boolean>(false);
+
 	const visitorId = useRef<string>("1");
 
 	const [isRecording, setIsRecording] = useState(false);
@@ -141,10 +140,10 @@ export default function PersonalAssistant() {
 						animate={{ opacity: 1, scale: 1, y: 0 }}
 						exit={{ opacity: 0, scale: 0.9, y: 50 }}
 						transition={{ duration: 0.3 }}
-						className='fixed bottom-24 right-6 w-[340px] md:w-[400px] max-h-[80vh] bg-[#1f2937] text-white rounded-xl shadow-2xl flex flex-col z-50 overflow-hidden'>
+						className='fixed bottom-24 right-2 w-auto md:w-[400px] max-h-[80vh] bg-[#1f2937] text-white rounded-xl shadow-2xl flex flex-col z-50 overflow-hidden'>
 						{/* Header */}
 						<div className='flex items-center justify-between p-4 border-b border-gray-700 bg-[#111827]'>
-							<h2 className='text-lg font-semibold'>Ashitosh's AI Assistant</h2>
+							<h2 className='text-lg font-semibold'>{`Ashitosh's AI Assistant`}</h2>
 							<button onClick={() => setOpen(false)}>
 								<X className='text-white' />
 							</button>
@@ -194,7 +193,7 @@ export default function PersonalAssistant() {
 							<button
 								disabled={inputDisabled || loading}
 								onClick={() => handleSend(input)}
-								className='sm:w-auto w-full px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg disabled:opacity-50'>
+								className='sm:w-auto w-[80px] px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg disabled:opacity-50'>
 								{loading ? "Sending" : "Send"}
 							</button>
 						</div>
