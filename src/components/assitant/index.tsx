@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useRef, useMemo, useCallback } from "react";
+import { useState, useRef, useMemo, useCallback, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Mic, MicOff, MessageCircle, X } from "lucide-react";
+import ReactMarkdown from "react-markdown";
 
 interface IMessages {
 	role: "user" | "assistant";
@@ -18,11 +19,20 @@ export default function PersonalAssistant() {
 	]);
 	const [loading, setLoading] = useState(false);
 	const [inputDisabled, setInputDisabled] = useState(false);
-	const playerContextResonseId = useRef<string | null>(null);
-	const contextFetched = useRef<boolean>(false);
+	// const playerContextResonseId = useRef<string | null>(null);
+	// const contextFetched = useRef<boolean>(false);
 	const visitorId = useRef<string>("1");
 
 	const [isRecording, setIsRecording] = useState(false);
+	// automatically scroll to bottom of chat
+	const messagesEndRef = useRef<HTMLDivElement | null>(null);
+	const scrollToBottom = () => {
+		messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+	};
+
+	useEffect(() => {
+		scrollToBottom();
+	}, [chats]);
 
 	const recognition = useMemo(() => {
 		const LANG = "en-US";
@@ -37,21 +47,32 @@ export default function PersonalAssistant() {
 			// Event listeners for the recognition
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			recognition.onresult = async (event: any) => {
-				const transcript = event.results[0][0].transcript;
-				console.log("Speech recognition result:", transcript);
+				try {
+					const transcript = event.results[0][0].transcript;
+					console.log("Speech recognition result:", transcript);
+					setChats(prev => [...prev, { role: "user" as "user" | "assistant", content: transcript }]);
+					setLoading(true);
 
-				const res = await fetch("/api/portfolio-assistant", {
-					method: "POST",
-					body: JSON.stringify({ question: transcript, playerContextResponseId: playerContextResonseId.current, visitorId: visitorId.current })
-				});
+					const res = await fetch("/api/gemini-assistant", {
+						method: "POST",
+						body: JSON.stringify({ question: transcript, visitorId: visitorId.current })
+					});
 
-				const { answer } = await res.json();
+					const { answer } = await res.json();
 
-				setChats(prev => [...prev, { role: "assistant" as "user" | "assistant", content: answer }]);
+					setChats(prev => [...prev, { role: "assistant" as "user" | "assistant", content: answer }]);
+				} catch (error) {
+					console.error("Error processing speech recognition result:", error);
+				} finally {
+					setLoading(false);
+					setInputDisabled(false);
+				}
 			};
 
 			recognition.onstart = () => {
 				setIsRecording(true);
+				setInputDisabled(true);
+
 				console.log("Speech recognition started");
 			};
 			recognition.onend = () => {
@@ -76,11 +97,13 @@ export default function PersonalAssistant() {
 		if (!message) return;
 		setChats([...chats, { role: "user", content: message }]);
 		setInput("");
+		setInputDisabled(true);
+		setLoading(true);
 
 		try {
-			const res = await fetch("/api/portfolio-assistant", {
+			const res = await fetch("/api/gemini-assistant", {
 				method: "POST",
-				body: JSON.stringify({ question: message, playerContextResponseId: playerContextResonseId.current, visitorId: visitorId.current })
+				body: JSON.stringify({ question: message, visitorId: visitorId.current })
 			});
 
 			const { answer } = await res.json();
@@ -88,6 +111,9 @@ export default function PersonalAssistant() {
 			setChats(prev => [...prev, { role: "assistant" as "user" | "assistant", content: answer }]);
 		} catch (error) {
 			console.error("Error sending message:", error);
+		} finally {
+			setLoading(false);
+			setInputDisabled(false);
 		}
 	};
 
@@ -118,32 +144,51 @@ export default function PersonalAssistant() {
 						</div>
 
 						{/* Messages */}
-						<div className='flex-1 overflow-y-auto space-y-2 px-4 py-3'>
-							{chats.map((msg, index) => (
-								<div
-									key={index}
-									className={`text-sm px-3 py-2 rounded-lg max-w-[80%] ${
-										msg.role === "assistant" ? "bg-blue-600 text-white self-start" : "bg-gray-300 text-gray-900 self-end ml-auto"
-									}`}>
-									{msg.content}
+						<div className='flex flex-col flex-1 overflow-y-auto space-y-3 p-4 rounded border border-gray-700 bg-gray-800 shadow-inner'>
+							{chats.map((msg: IMessages, i) => (
+								<div key={i} className={`w-full flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
+									<div
+										className={`px-4 py-2 rounded-xl break-words max-w-[85%] text-sm md:text-base ${
+											msg.role === "user" ? "bg-blue-600 text-white text-right" : "bg-gray-700 text-gray-100 text-left"
+										}`}>
+										<div className='prose prose-invert prose-sm md:prose-base max-w-none'>
+											<ReactMarkdown
+												components={{
+													a: ({ ...props }) => <a {...props} className='text-blue-400 underline' target='_blank' rel='noopener noreferrer' />,
+													strong: ({ ...props }) => <strong className='font-bold text-white' {...props} />,
+													ul: ({ ...props }) => <ul className='list-disc list-inside ml-4 text-gray-300' {...props} />,
+													ol: ({ ...props }) => <ol className='list-decimal list-inside ml-4 text-gray-300' {...props} />,
+													li: ({ ...props }) => <li className='mb-1' {...props} />,
+													p: ({ ...props }) => <p className='mb-2' {...props} />
+												}}>
+												{msg.content}
+											</ReactMarkdown>
+										</div>
+									</div>
 								</div>
 							))}
-						</div>
 
+							{loading && <div className='text-gray-400 text-sm italic'>Typing...</div>}
+							<div ref={messagesEndRef} />
+						</div>
 						{/* Input */}
 						<div className='p-3 border-t border-gray-700 bg-[#111827] flex items-center gap-2'>
 							<input
 								value={input}
+								disabled={inputDisabled}
 								onChange={e => setInput(e.target.value)}
 								onKeyDown={e => e.key === "Enter" && handleSend(input)}
 								placeholder='Ask a question...'
 								className='flex-1 bg-gray-800 text-white px-4 py-2 rounded-md outline-none'
 							/>
-							<button onClick={onRecordStart} className='text-white'>
+							<button disabled={inputDisabled || isRecording} onClick={onRecordStart} className='text-white'>
 								{isRecording ? <MicOff /> : <Mic />}
 							</button>
-							<button onClick={() => handleSend(input)} className='bg-blue-500 hover:bg-blue-600'>
-								Send
+							<button
+								disabled={inputDisabled || loading}
+								onClick={() => handleSend(input)}
+								className='sm:w-auto w-full px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg disabled:opacity-50'>
+								{loading ? "Sending" : "Send"}
 							</button>
 						</div>
 					</motion.div>
