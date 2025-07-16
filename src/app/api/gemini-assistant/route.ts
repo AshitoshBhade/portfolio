@@ -1,7 +1,4 @@
-// app/api/assistant/gemini/route.ts
-import { GoogleGenerativeAI } from "@google/generative-ai";
-import { readFile } from "fs/promises";
-import path from "path";
+import { geminiChat } from "@/configs/gemint";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function OPTIONS() {
@@ -28,42 +25,33 @@ export async function POST(req: NextRequest) {
 	}
 
 	try {
-		const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
-		const model = genAI.getGenerativeModel({
-			model: "gemini-2.5-pro"
-		});
+		const streamResult = await geminiChat.sendMessageStream(question);
 
-		const filePath = path.resolve(process.cwd(), "src/configs", "instructions.txt");
-		const instructions = await readFile(filePath, "utf-8");
+		if (!streamResult || !streamResult.stream) {
+			return new NextResponse(JSON.stringify({ error: "No response stream available" }), { status: 500 });
+		}
 
-		const cvfilePath = path.resolve(process.cwd(), "public", "AshitoshCV.pdf");
-		const cvContent = await readFile(cvfilePath, "utf-8");
-
-		const chat = model.startChat({
-			systemInstruction: {
-				role: "system",
-				parts: [
-					{
-						text: instructions
+		// Stream the response
+		const readableStream = new ReadableStream({
+			async start(controller) {
+				for await (const chunk of streamResult.stream) {
+					const chunkText = chunk.text();
+					if (chunkText) {
+						controller.enqueue(chunkText);
 					}
-				]
-			},
-			history: [
-				{
-					role: "user",
-					parts: [{ text: `Please refer to Ashitosh's resume for your answers:\n\n${cvContent}` }]
 				}
-			]
+				controller.close();
+
+				console.log(`[${visitorId}] Updated dynamic history with new turn.`);
+			}
 		});
 
-		const result = await chat.sendMessage(question);
-		const text = result.response.text();
-
-		return new NextResponse(JSON.stringify({ answer: text }), {
-			status: 200,
+		return new NextResponse(readableStream, {
 			headers: {
-				"Access-Control-Allow-Origin": "*",
-				"Content-Type": "application/json"
+				"Content-Type": "text/plain",
+				"Transfer-Encoding": "chunked",
+				"Cache-Control": "no-cache",
+				Connection: "keep-alive"
 			}
 		});
 	} catch (error) {

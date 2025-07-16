@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState, useRef, useMemo, useCallback, useEffect } from "react";
@@ -40,83 +41,110 @@ export default function PersonalAssistant() {
 			// @ts-expect-error it's correct
 			const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
 
-			// Set the language of the recognition
 			recognition.lang = LANG;
 
-			// Event listeners for the recognition
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			recognition.onresult = async (event: any) => {
 				try {
 					const transcript = event.results[0][0].transcript;
 					console.log("Speech recognition result:", transcript);
-					setChats(prev => [...prev, { role: "user" as "user" | "assistant", content: transcript }]);
-					setLoading(true);
 
-					const res = await fetch("/api/gemini-assistant", {
-						method: "POST",
-						body: JSON.stringify({ question: transcript, visitorId: visitorId.current })
-					});
-
-					if (!res.ok) {
-						throw new Error("Failed to fetch response from AI assistant");
-					}
-					const { answer } = await res.json();
-
-					setChats(prev => [...prev, { role: "assistant" as "user" | "assistant", content: answer }]);
+					await handleSend(transcript); // Use the same send handler for consistency
 				} catch (error) {
 					console.error("Error processing speech recognition result:", error);
 					setChats(prev => [...prev, { role: "assistant" as "user" | "assistant", content: "Something went wrong" }]);
 				} finally {
 					setLoading(false);
 					setInputDisabled(false);
+					setIsRecording(false); // Ensure recording state is reset
 				}
 			};
 
 			recognition.onstart = () => {
 				setIsRecording(true);
 				setInputDisabled(true);
-
 				console.log("Speech recognition started");
 			};
 			recognition.onend = () => {
 				console.log("Speech recognition ended");
 				setIsRecording(false);
 			};
+			recognition.onerror = (event: any) => {
+				console.error("Speech recognition error:", event.error);
+				setIsRecording(false);
+				setInputDisabled(false);
+				setLoading(false);
+				setChats(prev => [...prev, { role: "assistant" as "user" | "assistant", content: "Speech recognition error. Please try again." }]);
+			};
 
 			return recognition;
-			// Safe to use window here
 		}
-	}, [visitorId]);
+	}, []);
 
 	const onRecordStart = useCallback(() => {
 		if (!recognition) {
 			console.error("Speech recognition is not supported in this browser.");
+			return;
 		}
+		setIsRecording(true);
 		recognition.start();
 	}, [recognition]);
 
-	// Simulate AI response
 	const handleSend = async (message: string) => {
 		if (!message) return;
-		setChats([...chats, { role: "user", content: message }]);
+
+		setChats(prev => [...prev, { role: "user", content: message }]);
+
 		setInput("");
 		setInputDisabled(true);
-		setLoading(true);
+		setLoading(true); // Indicate loading for AI response
+		setChats(prev => [...prev, { role: "assistant", content: "" }]); // Placeholder for streaming
 
 		try {
 			const res = await fetch("/api/gemini-assistant", {
 				method: "POST",
+				headers: {
+					"Content-Type": "application/json" // Important: specify content type for JSON body
+				},
 				body: JSON.stringify({ question: message, visitorId: visitorId.current })
 			});
-			if (!res.ok) {
-				throw new Error("Failed to fetch response from AI assistant");
-			}
-			const { answer } = await res.json();
 
-			setChats(prev => [...prev, { role: "assistant" as "user" | "assistant", content: answer }]);
+			if (!res.ok || !res.body) {
+				throw new Error(`HTTP error! status: ${res.status}`);
+			}
+
+			const reader = res.body.getReader();
+			const decoder = new TextDecoder("utf-8");
+			let receivedText = "";
+
+			while (true) {
+				const { done, value } = await reader.read();
+				if (done) {
+					break;
+				}
+				const chunk = decoder.decode(value, { stream: true });
+				receivedText += chunk;
+
+				// Update the last assistant message with new chunks
+				setChats(prev => {
+					const newChats = [...prev];
+					newChats[newChats.length - 1].content = receivedText;
+					return newChats;
+				});
+			}
 		} catch (error) {
-			console.error("Error sending message:", error);
-			setChats(prev => [...prev, { role: "assistant" as "user" | "assistant", content: "Something went wrong" }]);
+			console.error("Error sending message or streaming response:", error);
+			// Update the last assistant message with an error, or add a new one
+			setChats(prev => {
+				const newChats = [...prev];
+				// Check if the last message is the placeholder, update it. Otherwise, add new.
+				if (newChats.length > 0 && newChats[newChats.length - 1].role === "assistant" && newChats[newChats.length - 1].content === "") {
+					newChats[newChats.length - 1].content = "Oops! Something went wrong while getting the response.";
+				} else {
+					newChats.push({ role: "assistant", content: "Oops! Something went wrong while getting the response." });
+				}
+				return newChats;
+			});
 		} finally {
 			setLoading(false);
 			setInputDisabled(false);
