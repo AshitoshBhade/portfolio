@@ -29,10 +29,12 @@ export async function POST(req: NextRequest) {
 
 	try {
 		const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
-		const model = genAI.getGenerativeModel({ model: "gemini-2.5-pro" });
+		const model = genAI.getGenerativeModel({
+			model: "gemini-2.5-pro"
+		});
 
-		// const filePath = path.resolve(process.cwd(), "src/configs", "instructions.txt");
-		// const instructions = await readFile(filePath, "utf-8");
+		const filePath = path.resolve(process.cwd(), "src/configs", "instructions.txt");
+		const instructions = await readFile(filePath, "utf-8");
 
 		const cvfilePath = path.resolve(process.cwd(), "public", "AshitoshCV.pdf");
 		const cvContent = await readFile(cvfilePath, "utf-8");
@@ -42,14 +44,14 @@ export async function POST(req: NextRequest) {
 				role: "system",
 				parts: [
 					{
-						text: 'You are "Ashitosh Personal AI Assistant" — a professional, responsive assistant designed to answer user questions in friendly based only on Ashitosh Bhade’s resume.'
+						text: instructions
 					}
 				]
 			},
 			history: [
 				{
 					role: "user",
-					parts: [{ text: `Here is Ashitosh's resume:\n\n${cvContent}` }]
+					parts: [{ text: `Please refer to Ashitosh's resume for your answers:\n\n${cvContent}` }]
 				}
 			]
 		});

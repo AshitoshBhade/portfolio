@@ -58,11 +58,15 @@ export default function PersonalAssistant() {
 						body: JSON.stringify({ question: transcript, visitorId: visitorId.current })
 					});
 
+					if (!res.ok) {
+						throw new Error("Failed to fetch response from AI assistant");
+					}
 					const { answer } = await res.json();
 
 					setChats(prev => [...prev, { role: "assistant" as "user" | "assistant", content: answer }]);
 				} catch (error) {
 					console.error("Error processing speech recognition result:", error);
+					setChats(prev => [...prev, { role: "assistant" as "user" | "assistant", content: "Something went wrong" }]);
 				} finally {
 					setLoading(false);
 					setInputDisabled(false);
@@ -105,12 +109,15 @@ export default function PersonalAssistant() {
 				method: "POST",
 				body: JSON.stringify({ question: message, visitorId: visitorId.current })
 			});
-
+			if (!res.ok) {
+				throw new Error("Failed to fetch response from AI assistant");
+			}
 			const { answer } = await res.json();
 
 			setChats(prev => [...prev, { role: "assistant" as "user" | "assistant", content: answer }]);
 		} catch (error) {
 			console.error("Error sending message:", error);
+			setChats(prev => [...prev, { role: "assistant" as "user" | "assistant", content: "Something went wrong" }]);
 		} finally {
 			setLoading(false);
 			setInputDisabled(false);
