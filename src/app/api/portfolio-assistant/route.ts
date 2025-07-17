@@ -1,4 +1,4 @@
-import { openaiClient } from "@/configs/openai";
+import { model, openaiClient } from "@/configs/openai";
 import { createVectorStoreForAshitoshCV } from "@/utils/createPortfolioVector";
 import fsPromises from "fs/promises";
 import { NextRequest, NextResponse } from "next/server";
@@ -20,9 +20,9 @@ export async function OPTIONS() {
 export async function POST(req: NextRequest) {
 	const { question, responseId, visitorId } = await req.json();
 
-	if (!responseId) {
-		return new NextResponse(JSON.stringify({ error: "Missing responseId in request body" }), { status: 400 });
-	}
+	// if (!responseId) {
+	// 	return new NextResponse(JSON.stringify({ error: "Missing responseId in request body" }), { status: 400 });
+	// }
 
 	if (!visitorId) {
 		return new NextResponse(JSON.stringify({ error: "Missing visitorId in request body" }), { status: 400 });
@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
 		return new NextResponse(JSON.stringify({ error: "Missing question in request body" }), { status: 400 });
 	}
 
-	const existingVectorStoreId = process.env.NEXT_PUBLIC_PORTFOLIO_VECTOR_ID!;
+	const existingVectorStoreId = process.env.NEXT_PUBLIC_ASHITOSH_PORTFOLIO_VECTOR_ID!;
 
 	if (!existingVectorStoreId) {
 		await createVectorStoreForAshitoshCV();
@@ -43,11 +43,12 @@ export async function POST(req: NextRequest) {
 	const instructions = await fsPromises.readFile(filePath, "utf-8");
 
 	const response = await openaiClient.responses.create({
-		model: "gpt-4.1",
+		model: model,
 		instructions: instructions,
 		previous_response_id: responseId,
 		user: visitorId,
 		store: true,
+		max_output_tokens: 1000,
 		input: [
 			{
 				role: "user",
