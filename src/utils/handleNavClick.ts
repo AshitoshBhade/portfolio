@@ -4,3 +4,7 @@ export const handleNavLinkClick = (sectionId: string) => {
 		section.scrollIntoView({ behavior: "smooth", block: "start" });
 	}
 };
+
+export const isMobile = () => {
+	return /Mobi|Android|iPhone/i.test(navigator.userAgent) || window.innerWidth <= 768;
+};
