@@ -5,12 +5,7 @@ import * as motion from "motion/react-client";
 import { useEffect, useRef, useState } from "react";
 import { HeaderItemConfig } from ".";
 import { HeaderItem, HeaderItemProps } from "./HeaderItem";
-
-interface PathProps {
-	d?: string;
-	variants: Variants;
-	transition?: { duration: number };
-}
+import { Menu, X } from "lucide-react";
 
 const itemVariants = {
 	open: {
@@ -63,32 +58,9 @@ export default function MobileMenu() {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const { height } = useDimensions(containerRef);
 
-	const Path = (props: PathProps) => <motion.path fill='transparent' strokeWidth='3' stroke='hsl(0, 37.80%, 91.20%)' strokeLinecap='round' {...props} />;
-
-	const MenuToggle = ({ toggle }: { toggle: () => void }) => (
-		<button style={toggleContainer} onClick={toggle}>
-			<svg width='32' height='32' viewBox='0 0 23 23'>
-				<Path
-					variants={{
-						closed: { d: "M 2 2.5 L 20 2.5" },
-						open: { d: "M 3 16.5 L 17 2.5" }
-					}}
-				/>
-				<Path
-					d='M 2 9.423 L 20 9.423'
-					variants={{
-						closed: { opacity: 1 },
-						open: { opacity: 0 }
-					}}
-					transition={{ duration: 0.1 }}
-				/>
-				<Path
-					variants={{
-						closed: { d: "M 2 16.346 L 20 16.346" },
-						open: { d: "M 3 2.5 L 17 16.346" }
-					}}
-				/>
-			</svg>
+	const MenuToggle = ({ toggle, isOpen }: { toggle: () => void; isOpen: boolean }) => (
+		<button style={toggleContainer} onClick={toggle} aria-label='Toggle menu'>
+			{isOpen ? <X size={28} strokeWidth={2.5} color='#fff' /> : <Menu size={28} strokeWidth={2.5} color='#fff' />}
 		</button>
 	);
 
@@ -102,13 +74,16 @@ export default function MobileMenu() {
 	};
 	return (
 		<div className='md:hidden absolute right-1 top-1 z-50'>
-			<div style={container}>
-				<motion.nav initial={false} animate={isOpen ? "open" : "closed"} custom={height} ref={containerRef} style={nav}>
-					<motion.div style={background} variants={sidebarVariants} />
-					<Navigation />
-					<MenuToggle toggle={() => setIsOpen(!isOpen)} />
-				</motion.nav>
-			</div>
+			<MenuToggle toggle={() => setIsOpen(!isOpen)} isOpen={isOpen} />
+
+			{isOpen ? (
+				<div style={container}>
+					<motion.nav initial={false} animate={isOpen ? "open" : "closed"} custom={height} ref={containerRef} style={nav}>
+						<motion.div style={background} variants={sidebarVariants} />
+						<Navigation />
+					</motion.nav>
+				</div>
+			) : null}
 		</div>
 	);
 }
@@ -161,7 +136,8 @@ const toggleContainer: React.CSSProperties = {
 	width: 50,
 	height: 50,
 	borderRadius: "50%",
-	background: "transparent"
+	background: "transparent",
+	zIndex: 1
 };
 
 const list: React.CSSProperties = {

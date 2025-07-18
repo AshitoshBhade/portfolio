@@ -3,8 +3,9 @@
 
 import { useState, useRef, useMemo, useCallback, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Mic, MicOff, MessageCircle, X } from "lucide-react";
+import { Mic, MicOff, MessageCircle, X, SendIcon } from "lucide-react";
 import ReactMarkdown from "react-markdown";
+import { isMobile } from "@/utils/handleNavClick";
 
 interface IMessages {
 	role: "user" | "assistant";
@@ -168,7 +169,7 @@ export default function PersonalAssistant() {
 						animate={{ opacity: 1, scale: 1, y: 0 }}
 						exit={{ opacity: 0, scale: 0.9, y: 50 }}
 						transition={{ duration: 0.3 }}
-						className='fixed bottom-24 right-2 w-auto md:w-[400px] max-h-[80vh] bg-[#1f2937] text-white rounded-xl shadow-2xl flex flex-col z-50 overflow-hidden'>
+						className='fixed bottom-24 right-2 w-[95vw] sm:w-[400px] max-w-[95vw] max-h-[80vh] bg-[#1f2937] text-white rounded-xl shadow-2xl flex flex-col z-50 overflow-hidden'>
 						{/* Header */}
 						<div className='flex items-center justify-between p-4 border-b border-gray-700 bg-[#111827]'>
 							<h2 className='text-lg font-semibold'>{`Ashitosh's AI Assistant`}</h2>
@@ -218,12 +219,16 @@ export default function PersonalAssistant() {
 							<button disabled={inputDisabled || isRecording} onClick={onRecordStart} className='text-white'>
 								{isRecording ? <MicOff /> : <Mic />}
 							</button>
-							<button
-								disabled={inputDisabled || loading}
-								onClick={() => handleSend(input)}
-								className='sm:w-auto w-[80px] px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg disabled:opacity-50'>
-								{loading ? "Sending" : "Send"}
-							</button>
+							{isMobile() ? (
+								<SendIcon onClick={() => handleSend(input)} style={{ transform: `rotateZ(45deg)` }} />
+							) : (
+								<button
+									disabled={inputDisabled || loading}
+									onClick={() => handleSend(input)}
+									className='sm:w-auto w-[80px] px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg disabled:opacity-50'>
+									{loading ? "Sending" : "Send"}
+								</button>
+							)}
 						</div>
 					</motion.div>
 				)}
