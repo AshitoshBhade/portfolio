@@ -182,7 +182,7 @@ export default function PersonalAssistant() {
 							animate={{ opacity: 1, scale: 1, y: 0 }}
 							exit={{ opacity: 0, scale: 0.9, y: 50 }}
 							transition={{ duration: 0.3 }}
-							className='fixed bottom-24 right-2 w-[95vw] sm:w-[400px] max-w-[95vw] max-h-[80vh] bg-[#1f2937] text-white rounded-xl shadow-2xl flex flex-col z-50 overflow-hidden'>
+							className='fixed bottom-24 right-2 w-[95vw] z-20000  sm:w-[400px] max-w-[95vw] max-h-[80vh] bg-[#1f2937] text-white rounded-xl shadow-2xl flex flex-col z-50 overflow-hidden'>
 							{/* Header */}
 							<div className='flex items-center justify-between p-4 border-b border-gray-700 bg-[#111827]'>
 								<h2 className='text-lg font-semibold'>{`Ashitosh's AI Assistant`}</h2>
