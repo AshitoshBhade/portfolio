@@ -48,13 +48,13 @@ export const Intro = () => {
 				>
 					A professional Blockchain Developer.
 				</motion.p>
-				<motion.a
+				{/* <motion.a
 					href='https://testnets.opensea.io/assets/base_sepolia/0x8214ba3739813d603f0f06be95e2ebcc947c1098/1'
 					target='_blank'
 					rel='noopener noreferrer'
 					className='text-blue-400 block hover:text-blue-500 transition-colors mb-3'>
 					Check me out on Opensea
-				</motion.a>
+				</motion.a> */}
 				<motion.div
 					className='flex flex-row flex-wrap justify-center space-x-4 flex-wrap gap-4' // Added flex-wrap and gap for responsiveness
 					initial={{ opacity: 0, y: 20 }} // Kept Framer Motion for buttons
